@@ -5,12 +5,12 @@ import (
 	"time"
 )
 
-var baseURL string
+var BaseURL string
 
 var c *http.Client
 
 func Init(c2Host string, timeout time.Duration) {
-	baseURL = c2Host
+	BaseURL = c2Host
 	c = &http.Client{
 		Timeout: timeout,
 	}
