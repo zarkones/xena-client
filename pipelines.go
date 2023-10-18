@@ -28,13 +28,8 @@ func GetPipelines() (pipelines []Pipeline, err error) {
 }
 
 // UpsertPipeline will insert or update a pipeline.
-func UpsertPipeline(pipelineName string, agentIDs []string) (err error) {
-	payload := ExecPipelineReqCtx{
-		AgentIDs:     agentIDs,
-		PipelineName: pipelineName,
-	}
-
-	jsonPayload, err := json.Marshal(&payload)
+func UpsertPipeline(pipeline Pipeline) (err error) {
+	jsonPayload, err := json.Marshal(&pipeline)
 	if err != nil {
 		return err
 	}
