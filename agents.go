@@ -3,6 +3,7 @@ package c2api
 import (
 	"bytes"
 	"encoding/json"
+	"io"
 	"net/http"
 )
 
@@ -39,4 +40,23 @@ func Identify(hostname, os, arch string) (id string, err error) {
 	}
 
 	return respCtx.ID, nil
+}
+
+// GetAgents asks the C2 for the list of agents.
+func GetAgents() (agents []Agent, err error) {
+	resp, err := c.Get(baseURL + "/v1/agents")
+	if err != nil {
+		return nil, err
+	}
+
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := json.Unmarshal(respBody, &agents); err != nil {
+		return nil, err
+	}
+
+	return agents, nil
 }
