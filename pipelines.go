@@ -27,6 +27,35 @@ func GetPipelines() (pipelines []Pipeline, err error) {
 	return pipelines, nil
 }
 
+// UpsertPipeline will insert or update a pipeline.
+func UpsertPipeline(pipelineName string, agentIDs []string) (err error) {
+	payload := ExecPipelineReqCtx{
+		AgentIDs:     agentIDs,
+		PipelineName: pipelineName,
+	}
+
+	jsonPayload, err := json.Marshal(&payload)
+	if err != nil {
+		return err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, baseURL+"/v1/pipelines", bytes.NewBuffer(jsonPayload))
+	if err != nil {
+		return err
+	}
+
+	resp, err := c.Do(req)
+	if err != nil {
+		return err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return errors.Join(ErrUnexpectedStatusCode, errors.New(resp.Status))
+	}
+
+	return nil
+}
+
 type ExecPipelineReqCtx struct {
 	AgentIDs     []string `json:"agentIds"`
 	PipelineName string   `json:"pipelineName"`
