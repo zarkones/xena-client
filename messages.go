@@ -55,3 +55,27 @@ func RespondToMessage(messageID, response string) (err error) {
 
 	return nil
 }
+
+// InsertMessage allows an operator to insert a message.
+func InsertMessage(message Message) (err error) {
+	jsonMsgResp, err := json.Marshal(&message)
+	if err != nil {
+		return err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, baseURL+"/v1/messages", bytes.NewBuffer(jsonMsgResp))
+	if err != nil {
+		return err
+	}
+
+	resp, err := c.Do(req)
+	if err != nil {
+		return err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return ErrUnexpectedStatusCode
+	}
+
+	return nil
+}
