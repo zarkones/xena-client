@@ -73,7 +73,7 @@ func InsertMessage(message Message) (err error) {
 		return err
 	}
 
-	if resp.StatusCode != http.StatusOK {
+	if resp.StatusCode != http.StatusCreated {
 		return ErrUnexpectedStatusCode
 	}
 
