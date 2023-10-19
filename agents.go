@@ -44,7 +44,14 @@ func Identify(hostname, os, arch string) (id string, err error) {
 
 // GetAgents asks the C2 for the list of agents.
 func GetAgents() (agents []Agent, err error) {
-	resp, err := c.Get(BaseURL + "/v1/agents")
+	req, err := http.NewRequest(http.MethodGet, BaseURL+"/v1/agents", nil)
+	if err != nil {
+		return nil, err
+	}
+
+	setAuth(req)
+
+	resp, err := c.Do(req)
 	if err != nil {
 		return nil, err
 	}

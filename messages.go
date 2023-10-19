@@ -13,6 +13,8 @@ func FetchMessages(agentID string) (messages []Message, err error) {
 		return nil, err
 	}
 
+	setAuth(req)
+
 	resp, err := c.Do(req)
 	if err != nil {
 		return nil, err
@@ -67,6 +69,8 @@ func InsertMessage(message Message) (err error) {
 	if err != nil {
 		return err
 	}
+
+	setAuth(req)
 
 	resp, err := c.Do(req)
 	if err != nil {

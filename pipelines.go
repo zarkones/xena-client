@@ -10,10 +10,16 @@ import (
 
 // GetPipelines asks the C2 for the list of pipelines.
 func GetPipelines() (pipelines []Pipeline, err error) {
+	req, err := http.NewRequest(http.MethodGet, BaseURL+"/v1/pipelines", nil)
+	if err != nil {
+		return nil, err
+	}
 	resp, err := c.Get(BaseURL + "/v1/pipelines")
 	if err != nil {
 		return nil, err
 	}
+
+	setAuth(req)
 
 	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
@@ -38,6 +44,8 @@ func UpsertPipeline(pipeline Pipeline) (err error) {
 	if err != nil {
 		return err
 	}
+
+	setAuth(req)
 
 	resp, err := c.Do(req)
 	if err != nil {
@@ -74,6 +82,8 @@ func ExecutePipeline(pipelineName string, agentIDs []string) (err error) {
 		return err
 	}
 
+	setAuth(req)
+
 	resp, err := c.Do(req)
 	if err != nil {
 		return err
@@ -107,6 +117,8 @@ func SetPipelineSettings(pipelineID string, pipelineSettings PipelineSettings) (
 	if err != nil {
 		return err
 	}
+
+	setAuth(req)
 
 	resp, err := c.Do(req)
 	if err != nil {
