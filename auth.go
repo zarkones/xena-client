@@ -6,7 +6,7 @@ func setAuth(req *http.Request) {
 	if authToken == nil {
 		return
 	}
-	if *authToken != "" {
+	if *authToken == "" {
 		return
 	}
 	req.Header.Add("Authorization", *authToken)
