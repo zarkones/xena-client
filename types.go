@@ -34,3 +34,10 @@ type PipelineCommand struct {
 	Cmd         string `json:"cmd"`
 	ToOutputTag string `json:"toOutput"`
 }
+
+type Target struct {
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	Value string `json:"value"`
+	Type  string `json:"type"`
+}
