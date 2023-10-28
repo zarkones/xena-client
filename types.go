@@ -4,6 +4,7 @@ type Attack struct {
 	ID       string `json:"id"`
 	AgentID  string `json:"agentId"`
 	TargetID string `json:"targetId"`
+	Comment  string `json:"comment"`
 }
 
 type Agent struct {
