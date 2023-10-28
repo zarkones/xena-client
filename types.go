@@ -1,5 +1,11 @@
 package c2api
 
+type Attack struct {
+	ID       string `json:"id"`
+	AgentID  string `json:"agentId"`
+	TargetID string `json:"targetId"`
+}
+
 type Agent struct {
 	ID        string `json:"id"`
 	Hostname  string `json:"hostname"`

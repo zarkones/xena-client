@@ -12,36 +12,6 @@ type AttackTargetCtx struct {
 	TargetID string `json:"targetId"`
 }
 
-func AttackTarget(agentId string, targetId string) (err error) {
-	payload := AttackTargetCtx{
-		AgentID:  agentId,
-		TargetID: targetId,
-	}
-
-	jsonPayload, err := json.Marshal(&payload)
-	if err != nil {
-		return err
-	}
-
-	req, err := http.NewRequest("POST", BaseURL+"/v1/targets/attack", bytes.NewReader(jsonPayload))
-	if err != nil {
-		return err
-	}
-
-	setAuth(req)
-
-	resp, err := c.Do(req)
-	if err != nil {
-		return err
-	}
-
-	if resp.StatusCode != http.StatusOK {
-		return errors.Join(ErrUnexpectedStatusCode, errors.New(resp.Status))
-	}
-
-	return nil
-}
-
 func GetTargets() (targets []Target, err error) {
 	req, err := http.NewRequest("GET", BaseURL+"/v1/targets", nil)
 	if err != nil {
