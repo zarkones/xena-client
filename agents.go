@@ -21,7 +21,7 @@ func Identify(hostname, os, arch string) (id string, err error) {
 		return "", err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, BaseURL+"/v1/agents", bytes.NewBuffer(jsonPayload))
+	req, err := http.NewRequest(http.MethodPost, *BaseURL+"/v1/agents", bytes.NewBuffer(jsonPayload))
 	if err != nil {
 		return "", err
 	}
@@ -44,7 +44,7 @@ func Identify(hostname, os, arch string) (id string, err error) {
 
 // GetAgents asks the C2 for the list of agents.
 func GetAgents() (agents []Agent, err error) {
-	req, err := http.NewRequest(http.MethodGet, BaseURL+"/v1/agents", nil)
+	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/agents", nil)
 	if err != nil {
 		return nil, err
 	}

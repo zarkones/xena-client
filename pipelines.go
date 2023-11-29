@@ -10,11 +10,11 @@ import (
 
 // GetPipelines asks the C2 for the list of pipelines.
 func GetPipelines() (pipelines []Pipeline, err error) {
-	req, err := http.NewRequest(http.MethodGet, BaseURL+"/v1/pipelines", nil)
+	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/pipelines", nil)
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.Get(BaseURL + "/v1/pipelines")
+	resp, err := c.Get(*BaseURL + "/v1/pipelines")
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +40,7 @@ func UpsertPipeline(pipeline Pipeline) (err error) {
 		return err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, BaseURL+"/v1/pipelines", bytes.NewBuffer(jsonPayload))
+	req, err := http.NewRequest(http.MethodPost, *BaseURL+"/v1/pipelines", bytes.NewBuffer(jsonPayload))
 	if err != nil {
 		return err
 	}
@@ -77,7 +77,7 @@ func ExecutePipeline(pipelineName string, agentIDs []string) (err error) {
 		return err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, BaseURL+"/v1/pipelines/exec", bytes.NewBuffer(jsonPayload))
+	req, err := http.NewRequest(http.MethodPost, *BaseURL+"/v1/pipelines/exec", bytes.NewBuffer(jsonPayload))
 	if err != nil {
 		return err
 	}
@@ -113,7 +113,7 @@ func SetPipelineSettings(pipelineID string, pipelineSettings PipelineSettings) (
 		return err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, BaseURL+"/v1/pipelines/settings", bytes.NewBuffer(jsonPayload))
+	req, err := http.NewRequest(http.MethodPost, *BaseURL+"/v1/pipelines/settings", bytes.NewBuffer(jsonPayload))
 	if err != nil {
 		return err
 	}

