@@ -6,7 +6,7 @@ import (
 )
 
 var BaseURL *string
-var authToken *string
+var AuthToken *string
 
 var c *http.Client
 
@@ -15,8 +15,4 @@ func Init(c2Host *string, timeout time.Duration) {
 	c = &http.Client{
 		Timeout: timeout,
 	}
-}
-
-func SetAuthToken(newAuthToken *string) {
-	authToken = newAuthToken
 }
