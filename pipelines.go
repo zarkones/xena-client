@@ -14,12 +14,13 @@ func GetPipelines() (pipelines []Pipeline, err error) {
 	if err != nil {
 		return nil, err
 	}
-	resp, err := c.Get(*BaseURL + "/v1/pipelines")
+
+	setAuth(req)
+
+	resp, err := c.Do(req)
 	if err != nil {
 		return nil, err
 	}
-
-	setAuth(req)
 
 	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
