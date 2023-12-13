@@ -1,5 +1,7 @@
 package c2api
 
+import "fyne.io/fyne/v2"
+
 type Attack struct {
 	ID       string `json:"id"`
 	AgentID  string `json:"agentId"`
@@ -33,13 +35,15 @@ type Pipeline struct {
 
 type PipelineSettings struct {
 	Input map[string]string `json:"input"`
-	Steps []PipelineCommand `json:"steps"`
+	Steps []PipelineStep    `json:"steps"`
 }
 
-type PipelineCommand struct {
-	Name        string `json:"name"`
-	Cmd         string `json:"cmd"`
-	ToOutputTag string `json:"toOutput"`
+type PipelineStep struct {
+	ID          string        `json:"id"`
+	Position    fyne.Position `json:"position"`
+	Name        string        `json:"name"`
+	Cmd         string        `json:"cmd"`
+	ToOutputTag string        `json:"toOutput"`
 }
 
 type Target struct {
