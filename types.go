@@ -34,8 +34,8 @@ type Pipeline struct {
 }
 
 type PipelineSettings struct {
-	Input map[string]string `json:"input"`
-	Steps []PipelineStep    `json:"steps"`
+	Input map[string]string       `json:"input"`
+	Steps map[string]PipelineStep `json:"steps"`
 }
 
 type PipelineStep struct {
