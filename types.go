@@ -44,6 +44,21 @@ type PipelineStep struct {
 	Name        string        `json:"name"`
 	Cmd         string        `json:"cmd"`
 	ToOutputTag string        `json:"toOutput"`
+	Tool        Tool          `json:"tool"`
+}
+
+type Tool struct {
+	ID               string               `json:"id"`
+	Name             string               `json:"name"`
+	Description      string               `json:"description"`
+	ToolCategoryName string               `json:"toolCategoryName"`
+	Inputs           map[string]ToolInput `json:"inputs"`
+}
+
+type ToolInput struct {
+	Type        string `json:"type"`
+	Description string `json:"description"`
+	Value       string `json:"value"`
 }
 
 type Target struct {
