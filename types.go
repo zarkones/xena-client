@@ -45,14 +45,16 @@ type PipelineStep struct {
 	Cmd         string        `json:"cmd"`
 	ToOutputTag string        `json:"toOutput"`
 	Tool        Tool          `json:"tool"`
+	LinkedTo    string        `json:"linkedTo"` // ID of a step it is linked towards.
 }
 
 type Tool struct {
-	ID               string               `json:"id"`
-	Name             string               `json:"name"`
-	Description      string               `json:"description"`
-	ToolCategoryName string               `json:"toolCategoryName"`
-	Inputs           map[string]ToolInput `json:"inputs"`
+	ID               string                `json:"id"`
+	Name             string                `json:"name"`
+	Description      string                `json:"description"`
+	ToolCategoryName string                `json:"toolCategoryName"`
+	Inputs           map[string]ToolInput  `json:"inputs"`
+	Outputs          map[string]ToolOutput `json:"outputs"`
 }
 
 type ToolInput struct {
@@ -60,6 +62,15 @@ type ToolInput struct {
 	Description string `json:"description"`
 	Value       string `json:"value"`
 }
+
+type ToolOutput struct {
+	Type        string `json:"type"`
+	Description string `json:"description"`
+	Value       string `json:"value"`
+}
+
+// Refers to ToolInput.Type and ToolOutput.Type
+const TOOL_IO_TYPE_STRING = "STRING"
 
 type Target struct {
 	ID    string `json:"id"`
