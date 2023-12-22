@@ -71,6 +71,7 @@ type ToolOutput struct {
 
 // Refers to ToolInput.Type and ToolOutput.Type
 const TOOL_IO_TYPE_STRING = "STRING"
+const TOOL_IO_TYPE_FILE = "FILE"
 
 type Target struct {
 	ID    string `json:"id"`

@@ -61,16 +61,16 @@ func UpsertPipeline(pipeline Pipeline) (err error) {
 }
 
 type ExecPipelineReqCtx struct {
-	AgentIDs     []string `json:"agentIds"`
-	PipelineName string   `json:"pipelineName"`
+	AgentIDs   []string `json:"agentIds"`
+	PipelineID string   `json:"pipelineId"`
 }
 
 // ExecutePipeline will start a pipeline given its name.
 // Each agent referenced by ID would execute the pipeline.
-func ExecutePipeline(pipelineName string, agentIDs []string) (err error) {
+func ExecutePipeline(pipelineID string, agentIDs []string) (err error) {
 	payload := ExecPipelineReqCtx{
-		AgentIDs:     agentIDs,
-		PipelineName: pipelineName,
+		AgentIDs:   agentIDs,
+		PipelineID: pipelineID,
 	}
 
 	jsonPayload, err := json.Marshal(&payload)
