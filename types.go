@@ -1,6 +1,8 @@
 package c2api
 
-import "fyne.io/fyne/v2"
+import (
+	"fyne.io/fyne/v2"
+)
 
 type Attack struct {
 	ID       string `json:"id"`
@@ -39,22 +41,20 @@ type PipelineSettings struct {
 }
 
 type PipelineStep struct {
-	ID          string        `json:"id"`
-	Position    fyne.Position `json:"position"`
-	Name        string        `json:"name"`
-	Cmd         string        `json:"cmd"`
-	ToOutputTag string        `json:"toOutput"`
-	Tool        Tool          `json:"tool"`
-	LinkedTo    string        `json:"linkedTo"` // ID of a step it is linked towards.
+	ID       string        `json:"id"`
+	Name     string        `json:"name"`
+	Position fyne.Position `json:"position"`
+	Tool     Tool          `json:"tool"`
+	LinkedTo string        `json:"linkedTo"` // ID of a step it is linked towards.
 }
 
 type Tool struct {
-	ID               string                `json:"id"`
-	Name             string                `json:"name"`
-	Description      string                `json:"description"`
-	ToolCategoryName string                `json:"toolCategoryName"`
-	Inputs           map[string]ToolInput  `json:"inputs"`
-	Outputs          map[string]ToolOutput `json:"outputs"`
+	ID               string               `json:"id"`
+	Name             string               `json:"name"`
+	Description      string               `json:"description"`
+	ToolCategoryName string               `json:"toolCategoryName"`
+	Inputs           map[string]ToolInput `json:"inputs"`
+	Outputs          map[string]ToolInput `json:"outputs"`
 }
 
 type ToolInput struct {
