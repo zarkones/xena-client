@@ -28,11 +28,17 @@ type Message struct {
 }
 
 type Pipeline struct {
-	ID       string `json:"id" gorm:"primaryKey"`
+	ID       string `json:"id"`
 	Name     string `json:"name"`
 	Desc     string `json:"description"`
 	Category string `json:"category"`
 	Settings string `json:"settings"` // JSON stringified "PipelineSettings" variable.
+}
+
+type PipelineExecution struct {
+	ID               string `json:"id"`
+	PipelineID       string `json:"pipelineId"`
+	FinishedPipeline string `json:"finishedPipeline"` // JSON stringified "Pipeline" variable.
 }
 
 type PipelineSettings struct {
@@ -49,12 +55,12 @@ type PipelineStep struct {
 }
 
 type Tool struct {
-	ID               string               `json:"id"`
-	Name             string               `json:"name"`
-	Description      string               `json:"description"`
-	ToolCategoryName string               `json:"toolCategoryName"`
-	Inputs           map[string]ToolInput `json:"inputs"`
-	Outputs          map[string]ToolInput `json:"outputs"`
+	ID               string                `json:"id"`
+	Name             string                `json:"name"`
+	Description      string                `json:"description"`
+	ToolCategoryName string                `json:"toolCategoryName"`
+	Inputs           map[string]ToolInput  `json:"inputs"`
+	Outputs          map[string]ToolOutput `json:"outputs"`
 }
 
 type ToolInput struct {
@@ -64,9 +70,8 @@ type ToolInput struct {
 }
 
 type ToolOutput struct {
-	Type        string `json:"type"`
-	Description string `json:"description"`
-	Value       string `json:"value"`
+	Type  string `json:"type"`
+	Value string `json:"value"`
 }
 
 // Refers to ToolInput.Type and ToolOutput.Type
