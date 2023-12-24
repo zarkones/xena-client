@@ -34,6 +34,32 @@ func GetPipelines() (pipelines []Pipeline, err error) {
 	return pipelines, nil
 }
 
+// GetPipelineRuns asks the C2 for the list of historical runs (executions) of a pipeline.
+func GetPipelineRuns(pipelineID string) (runs []PipelineExecution, err error) {
+	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/pipelines/runs/"+pipelineID, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	setAuth(req)
+
+	resp, err := c.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := json.Unmarshal(respBody, &runs); err != nil {
+		return nil, err
+	}
+
+	return runs, nil
+}
+
 // UpsertPipeline will insert or update a pipeline.
 func UpsertPipeline(pipeline Pipeline) (err error) {
 	jsonPayload, err := json.Marshal(&pipeline)
