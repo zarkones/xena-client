@@ -46,16 +46,21 @@ func AgentFetchMessages(agentID string) (messages []Message, err error) {
 	return messages, nil
 }
 
-// AgentRespondToMessage allows an agent to respond to a message.
-func AgentRespondToMessage(messageID, response string) (err error) {
-	var msgRespCtx struct {
-		MessageID string `json:"messageId"`
-		Response  string `json:"response"`
-	}
-	msgRespCtx.MessageID = messageID
-	msgRespCtx.Response = response
+type AgentMsgRespCtx struct {
+	MessageID           string `json:"messageId"`
+	PipelineExecutionID string `json:"pipelineExecutionId"`
+	Response            string `json:"response"`
+}
 
-	jsonMsgResp, err := json.Marshal(&msgRespCtx)
+// AgentRespondToMessage allows an agent to respond to a message.
+func AgentRespondToMessage(messageID, pipelineExecutionID, response string) (err error) {
+	msgResp := AgentMsgRespCtx{
+		MessageID:           messageID,
+		PipelineExecutionID: pipelineExecutionID,
+		Response:            response,
+	}
+
+	jsonMsgResp, err := json.Marshal(&msgResp)
 	if err != nil {
 		return err
 	}
