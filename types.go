@@ -36,10 +36,12 @@ type Pipeline struct {
 	Settings string `json:"settings"` // JSON stringified "PipelineSettings" variable.
 }
 
-type PipelineExecution struct {
+type PipelineRun struct {
 	ID               string `json:"id"`
 	PipelineID       string `json:"pipelineId"`
 	FinishedPipeline string `json:"finishedPipeline"` // JSON stringified "Pipeline" variable.
+	FinishedAt       int64  `json:"finishedAt"`
+	FinishedAtLabel  string `json:"finishedAtLabel"`
 }
 
 type PipelineSettings struct {

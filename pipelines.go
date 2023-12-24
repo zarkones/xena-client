@@ -35,7 +35,7 @@ func GetPipelines() (pipelines []Pipeline, err error) {
 }
 
 // GetPipelineRuns asks the C2 for the list of historical runs (executions) of a pipeline.
-func GetPipelineRuns(pipelineID string) (runs []PipelineExecution, err error) {
+func GetPipelineRuns(pipelineID string) (runs []PipelineRun, err error) {
 	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/pipelines/runs/"+pipelineID, nil)
 	if err != nil {
 		return nil, err
