@@ -20,11 +20,12 @@ type Agent struct {
 }
 
 type Message struct {
-	ID            string `json:"id"`
-	AgentID       string `json:"agentId"`
-	FriendlyTitle string `json:"friendlyTitle"`
-	Request       string `json:"request"`
-	Response      string `json:"response"`
+	ID                  string `json:"id"`
+	AgentID             string `json:"agentId"`
+	PipelineExecutionID string `json:"pipelineExecutionId"`
+	FriendlyTitle       string `json:"friendlyTitle"`
+	Request             string `json:"request"`
+	Response            string `json:"response"`
 }
 
 type Pipeline struct {
