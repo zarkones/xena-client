@@ -54,7 +54,7 @@ type PipelineStep struct {
 	Name     string        `json:"name"`
 	Position fyne.Position `json:"position"`
 	Tool     Tool          `json:"tool"`
-	LinkedTo string        `json:"linkedTo"` // ID of a step it is linked towards.
+	LinkedTo []string      `json:"linkedTo"` // ID of a steps it is linked towards.
 }
 
 type Tool struct {
