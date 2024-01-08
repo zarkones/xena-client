@@ -158,3 +158,23 @@ func SetPipelineSettings(pipelineID string, pipelineSettings PipelineSettings) (
 
 	return nil
 }
+
+func DeletePipeline(pipelineID string) (err error) {
+	req, err := http.NewRequest(http.MethodDelete, *BaseURL+"/v1/pipelines/"+pipelineID, nil)
+	if err != nil {
+		return err
+	}
+
+	setAuth(req)
+
+	resp, err := c.Do(req)
+	if err != nil {
+		return err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return errors.Join(ErrUnexpectedStatusCode, errors.New(resp.Status))
+	}
+
+	return nil
+}
