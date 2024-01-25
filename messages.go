@@ -12,7 +12,7 @@ import (
 
 const MESSAGE_STREAM_SEPARATOR = "\r\r\r\r\r"
 
-func AgentMessagesSubscribe(agentID string, messageCallback func(message Message), messageDeserializationFailedCallback func(messageBuffer string)) (err error) {
+func AgentMessagesSubscribe(agentID string, messageCallback func(message Message), messageDeserializationFailedCallback func(messageBuffer string, err error), shouldExit func() (exit bool)) (err error) {
 	req, err := http.NewRequest("GET", *BaseURL+"/v1/messages/live/"+agentID, nil)
 	if err != nil {
 		return err
@@ -50,7 +50,7 @@ func AgentMessagesSubscribe(agentID string, messageCallback func(message Message
 
 		var message Message
 		if err := json.Unmarshal([]byte(messageBuffer), &message); err != nil {
-			messageDeserializationFailedCallback(messageBuffer)
+			messageDeserializationFailedCallback(messageBuffer, err)
 			messageBuffer = ""
 			continue
 		}
@@ -58,6 +58,10 @@ func AgentMessagesSubscribe(agentID string, messageCallback func(message Message
 		messageBuffer = ""
 
 		messageCallback(message)
+
+		if shouldExit() {
+			break
+		}
 	}
 
 	return nil
