@@ -13,7 +13,7 @@ type AttackTargetCtx struct {
 }
 
 func GetTargets() (targets []Target, err error) {
-	req, err := http.NewRequest("GET", *BaseURL+"/v1/targets", nil)
+	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/targets", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +38,7 @@ func UpsertTargets(target Target) (err error) {
 		return err
 	}
 
-	req, err := http.NewRequest("POST", *BaseURL+"/v1/targets", bytes.NewReader(jsonTarget))
+	req, err := http.NewRequest(http.MethodPost, *BaseURL+"/v1/targets", bytes.NewReader(jsonTarget))
 	if err != nil {
 		return err
 	}
@@ -53,7 +53,7 @@ func UpsertTargets(target Target) (err error) {
 }
 
 func RemoveTarget(targetID string) (err error) {
-	req, err := http.NewRequest("DELETE", *BaseURL+"/v1/targets/"+targetID, nil)
+	req, err := http.NewRequest(http.MethodDelete, *BaseURL+"/v1/targets/"+targetID, nil)
 	if err != nil {
 		return err
 	}

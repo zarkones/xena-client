@@ -8,7 +8,7 @@ import (
 )
 
 func GetOngoingAttacks() (attacks []Attack, err error) {
-	req, err := http.NewRequest("GET", *BaseURL+"/v1/attacks", nil)
+	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/attacks", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +38,7 @@ func AttackTarget(agentId string, targetId string) (err error) {
 		return err
 	}
 
-	req, err := http.NewRequest("POST", *BaseURL+"/v1/targets/attack", bytes.NewReader(jsonPayload))
+	req, err := http.NewRequest(http.MethodPost, *BaseURL+"/v1/targets/attack", bytes.NewReader(jsonPayload))
 	if err != nil {
 		return err
 	}

