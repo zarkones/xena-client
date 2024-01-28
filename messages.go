@@ -15,7 +15,11 @@ import (
 
 const MESSAGE_STREAM_SEPARATOR = "\r\r\r\r\r"
 
-func AgentMessagesSubscribe(agentID string, messageCallback func(message Message), messageDeserializationFailedCallback func(messageBuffer string, err error), shouldExit func() (exit bool)) (err error) {
+func AgentMessagesSubscribe(agentID string, decryptionKey *rsa.PrivateKey, messageCallback func(message Message), messageDeserializationFailedCallback func(messageBuffer string, err error), shouldExit func() (exit bool)) (err error) {
+	if decryptionKey == nil {
+		return ErrKeyIsNil
+	}
+
 	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/messages/live/"+agentID, nil)
 	if err != nil {
 		return err
@@ -93,6 +97,10 @@ func FetchMessages(agentID string) (messages []Message, err error) {
 
 // AgentFetchMessages will reach out to C2 server and fetch messages to which it has not reponded.
 func AgentFetchMessages(agentID string, decryptionKey *rsa.PrivateKey) (messages []Message, err error) {
+	if decryptionKey == nil {
+		return nil, ErrKeyIsNil
+	}
+
 	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/messages/"+agentID, nil)
 	if err != nil {
 		return nil, err
@@ -128,6 +136,10 @@ type AgentMsgRespCtx struct {
 
 // AgentRespondToMessage allows an agent to respond to a message.
 func AgentRespondToMessage(messageID, pipelineExecutionID, response string) (err error) {
+	if TrustedPubKey == nil {
+		return ErrKeyIsNil
+	}
+
 	msgResp := AgentMsgRespCtx{
 		MessageID:           messageID,
 		PipelineExecutionID: pipelineExecutionID,
