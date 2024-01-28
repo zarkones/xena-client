@@ -118,6 +118,10 @@ func AgentFetchMessages(agentID string, decryptionKey *rsa.PrivateKey) (messages
 		return nil, err
 	}
 
+	if resp.StatusCode == http.StatusNoContent {
+		return nil, nil
+	}
+
 	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
