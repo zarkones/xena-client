@@ -1,16 +1,13 @@
 package c2api
 
-func chunkSlice(slice []string, chunkSize int) [][]string {
-	var chunks [][]string
+func chunkSlice[T any](input []T, numChunks int) [][]T {
+	// Create the 2D slice to hold the chunks
+	chunks := make([][]T, numChunks)
 
-	for i := 0; i < len(slice); i += chunkSize {
-		end := i + chunkSize
-
-		if end > len(slice) {
-			end = len(slice)
-		}
-
-		chunks = append(chunks, slice[i:end])
+	// Iterate over the input slice and divide it into chunks
+	for i := range input {
+		chunkIndex := i % numChunks
+		chunks[chunkIndex] = append(chunks[chunkIndex], input[i])
 	}
 
 	return chunks
