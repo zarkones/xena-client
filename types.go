@@ -14,6 +14,7 @@ type Attack struct {
 type Agent struct {
 	ID        string `json:"id"`
 	Hostname  string `json:"hostname"`
+	PubKeyPEM string `json:"pubKeyPem"`
 	OS        string `json:"os"`
 	Arch      string `json:"arch"`
 	IpAddress string `json:"ipAddress"`
