@@ -33,7 +33,7 @@ func AgentMessagesSubscribe(agentID string, decryptionKey *rsa.PrivateKey, messa
 	defer resp.Body.Close()
 
 	reader := bufio.NewReader(resp.Body)
-	messageBuffer := ""
+	encryptedMsgBuff := ""
 
 	specialSuffix := MESSAGE_STREAM_SEPARATOR + "\n"
 
@@ -47,22 +47,29 @@ func AgentMessagesSubscribe(agentID string, decryptionKey *rsa.PrivateKey, messa
 			continue
 		}
 
-		messageBuffer += messageChunk
+		encryptedMsgBuff += messageChunk
 
 		if !strings.Contains(messageChunk, specialSuffix) {
 			continue
 		}
 
-		messageBuffer = strings.TrimSuffix(messageBuffer, specialSuffix)
+		encryptedMsgBuff = strings.TrimSuffix(encryptedMsgBuff, specialSuffix)
 
-		var message Message
-		if err := json.Unmarshal([]byte(messageBuffer), &message); err != nil {
-			messageDeserializationFailedCallback(messageBuffer, err)
-			messageBuffer = ""
+		decryptedMsgBuff, err := cry.DecryptRSAOAEPDecodeHex(*decryptionKey, encryptedMsgBuff)
+		if err != nil {
+			messageDeserializationFailedCallback(encryptedMsgBuff, err)
+			encryptedMsgBuff = ""
 			continue
 		}
 
-		messageBuffer = ""
+		var message Message
+		if err := json.Unmarshal([]byte(decryptedMsgBuff), &message); err != nil {
+			messageDeserializationFailedCallback(encryptedMsgBuff, err)
+			encryptedMsgBuff = ""
+			continue
+		}
+
+		encryptedMsgBuff = ""
 
 		messageCallback(message)
 
