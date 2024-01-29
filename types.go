@@ -85,9 +85,9 @@ type FileRecord struct {
 }
 
 type FileBrowserCtx struct {
-	WorkingDir string                `json:"wd"`
-	Records    map[string]FileRecord `json:"records"`
-	Err        string                `json:"err"`
+	WorkingDir string       `json:"wd"`
+	Records    []FileRecord `json:"records"`
+	Err        string       `json:"err"`
 }
 
 // Refers to ToolInput.Type and ToolOutput.Type
