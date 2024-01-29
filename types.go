@@ -27,6 +27,7 @@ type Message struct {
 	FriendlyTitle       string `json:"friendlyTitle"`
 	Request             string `json:"request"`
 	Response            string `json:"response"`
+	CreatedAt           int64  `json:"createdAt"`
 }
 
 type Pipeline struct {
