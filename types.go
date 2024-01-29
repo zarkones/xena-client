@@ -78,6 +78,17 @@ type ToolOutput struct {
 	Value string `json:"value"`
 }
 
+type FileRecord struct {
+	Name         string `json:"name"`
+	AbsolutePath string `json:"absolutePath"`
+	IsDir        bool   `json:"isDir"`
+}
+
+type FileBrowserCtx struct {
+	WorkingDir string                `json:"wd"`
+	Records    map[string]FileRecord `json:"records"`
+}
+
 // Refers to ToolInput.Type and ToolOutput.Type
 const TOOL_IO_TYPE_STRING = "STRING"
 const TOOL_IO_TYPE_FILE = "FILE"

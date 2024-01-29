@@ -215,3 +215,55 @@ func InsertMessage(message Message) (err error) {
 
 	return nil
 }
+
+// GetMessageByReq returns a message by agent ID and message's request.
+func GetMessageByReq(agentID, request string) (message Message, err error) {
+	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/message?agentID="+agentID+"&request="+request, nil)
+	if err != nil {
+		return message, err
+	}
+
+	setAuth(req)
+
+	resp, err := c.Do(req)
+	if err != nil {
+		return message, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return message, ErrUnexpectedStatusCode
+	}
+
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return message, err
+	}
+
+	return message, json.Unmarshal(respBody, &message)
+}
+
+// GetMessageByID returns a message by agent ID and message's request.
+func GetMessageByID(messageID string) (message Message, err error) {
+	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/message?messageID="+messageID, nil)
+	if err != nil {
+		return message, err
+	}
+
+	setAuth(req)
+
+	resp, err := c.Do(req)
+	if err != nil {
+		return message, err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return message, ErrUnexpectedStatusCode
+	}
+
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return message, err
+	}
+
+	return message, json.Unmarshal(respBody, &message)
+}
