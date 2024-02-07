@@ -35,7 +35,17 @@ func ListFiles() (files []File, err error) {
 }
 
 func RequestFileUpload(uploadedByAgentId, originalName string) (file File, err error) {
-	req, err := http.NewRequest(http.MethodPut, *BaseURL+"/v1/files", nil)
+	reqCtx := RequestFileUploadCtx{
+		UploadedByAgentID: uploadedByAgentId,
+		OriginalName:      originalName,
+	}
+
+	jsonReqCtx, err := json.Marshal(&reqCtx)
+	if err != nil {
+		return file, err
+	}
+
+	req, err := http.NewRequest(http.MethodPut, *BaseURL+"/v1/files", bytes.NewReader(jsonReqCtx))
 	if err != nil {
 		return file, err
 	}
@@ -45,6 +55,10 @@ func RequestFileUpload(uploadedByAgentId, originalName string) (file File, err e
 	resp, err := c.Do(req)
 	if err != nil {
 		return file, err
+	}
+
+	if resp.StatusCode != http.StatusCreated {
+		return file, ErrUnexpectedStatusCode
 	}
 
 	respBody, err := io.ReadAll(resp.Body)
