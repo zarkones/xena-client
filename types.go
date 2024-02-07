@@ -101,3 +101,11 @@ type Target struct {
 	Value string `json:"value"`
 	Type  string `json:"type"`
 }
+
+type File struct {
+	ID                string `json:"id"`
+	UploadedByAgentID string `json:"uploadedByAgentId"`
+	OriginalName      string `json:"originalName"`
+	StorageName       string `json:"storageName"`
+	Uploaded          bool   `json:"uploaded"`
+}
