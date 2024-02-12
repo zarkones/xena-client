@@ -70,7 +70,7 @@ func RequestFileUpload(uploadedByAgentId, originalName string) (file File, err e
 }
 
 func DownloadFile(fileID string) (fileContent []byte, err error) {
-	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/files/", nil)
+	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/files/"+fileID, nil)
 	if err != nil {
 		return nil, err
 	}
