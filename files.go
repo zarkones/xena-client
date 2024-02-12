@@ -9,7 +9,7 @@ import (
 	cry "github.com/zarkones/xena-crypto"
 )
 
-func ListFiles() (files []File, err error) {
+func GetFiles() (files []File, err error) {
 	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/files", nil)
 	if err != nil {
 		return nil, err
