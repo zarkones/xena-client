@@ -108,6 +108,7 @@ type File struct {
 	OriginalName      string `json:"originalName"`
 	StorageName       string `json:"storageName"`
 	Uploaded          bool   `json:"uploaded"`
+	UploadedAt        string `json:"uploadedAt"`
 }
 
 type RequestFileUploadCtx struct {
