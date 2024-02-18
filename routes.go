@@ -14,12 +14,13 @@ const (
 	R_FETCH_MESSAGES      = 2
 	R_FETCH_MESSAGES_LIVE = 3
 	R_FILE_UPLOAD         = 5
+	R_MODULE_DOWNLOAD     = 6
 )
 
 var RouteMap map[int][]string = func() (rMap map[int][]string) {
 	registeredObfuscatedRoutes := []int{
 		R_AGENT_IDENTIFY, R_FETCH_MESSAGES, R_MESSAGE_RESPOND,
-		R_FETCH_MESSAGES_LIVE, R_FILE_UPLOAD,
+		R_FETCH_MESSAGES_LIVE, R_FILE_UPLOAD, R_MODULE_DOWNLOAD,
 	}
 
 	rMap = make(map[int][]string, len(registeredObfuscatedRoutes))

@@ -3,6 +3,7 @@ package c2api
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
 
@@ -34,6 +35,11 @@ func GetFiles() (files []File, err error) {
 	return files, json.Unmarshal(respBody, &files)
 }
 
+type RequestFileUploadCtx struct {
+	UploadedByAgentID string `json:"uploadedByAgentId"`
+	OriginalName      string `json:"originalName"`
+}
+
 func RequestFileUpload(uploadedByAgentId, originalName string) (file File, err error) {
 	reqCtx := RequestFileUploadCtx{
 		UploadedByAgentID: uploadedByAgentId,
@@ -58,7 +64,7 @@ func RequestFileUpload(uploadedByAgentId, originalName string) (file File, err e
 	}
 
 	if resp.StatusCode != http.StatusCreated {
-		return file, ErrUnexpectedStatusCode
+		return file, errors.Join(ErrUnexpectedStatusCode, errors.New(resp.Status))
 	}
 
 	respBody, err := io.ReadAll(resp.Body)

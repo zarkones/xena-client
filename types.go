@@ -110,8 +110,3 @@ type File struct {
 	Uploaded          bool   `json:"uploaded"`
 	UploadedAt        string `json:"uploadedAt"`
 }
-
-type RequestFileUploadCtx struct {
-	UploadedByAgentID string `json:"uploadedByAgentId"`
-	OriginalName      string `json:"originalName"`
-}

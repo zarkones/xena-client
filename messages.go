@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"crypto/rsa"
 	"encoding/json"
+	"errors"
 	"io"
 	"net/http"
 	"strings"
@@ -231,7 +232,7 @@ func GetMessageByReq(agentID, request string) (message Message, err error) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return message, ErrUnexpectedStatusCode
+		return message, errors.Join(ErrUnexpectedStatusCode, errors.New(resp.Status))
 	}
 
 	respBody, err := io.ReadAll(resp.Body)
@@ -257,7 +258,7 @@ func GetMessageByID(messageID string) (message Message, err error) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return message, ErrUnexpectedStatusCode
+		return message, errors.Join(ErrUnexpectedStatusCode, errors.New(resp.Status))
 	}
 
 	respBody, err := io.ReadAll(resp.Body)
