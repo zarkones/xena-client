@@ -12,15 +12,16 @@ import (
 )
 
 type AgentModuleReqCtx struct {
-	ModuleName string `json:"moduleName"` // Example: HELLO_WORLD.dll
+	AgentID    string `json:"agentId"`
+	ModuleName string `json:"moduleName"` // Example: HELLO_WORLD.DLL
 }
 
-func AgentDownloadModule(moduleName string, decryptionKey *rsa.PrivateKey) (module string, err error) {
+func AgentDownloadModule(agentID, moduleName string, decryptionKey *rsa.PrivateKey) (module string, err error) {
 	if TrustedPubKey == nil {
 		return "", ErrKeyIsNil
 	}
 
-	payload, err := json.Marshal(AgentModuleReqCtx{moduleName})
+	payload, err := json.Marshal(AgentModuleReqCtx{AgentID: agentID, ModuleName: moduleName})
 	if err != nil {
 		return "", err
 	}
