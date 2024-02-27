@@ -153,7 +153,7 @@ type AgentMsgRespCtx struct {
 // AgentRespondToMessage allows an agent to respond to a message.
 func AgentRespondToMessage(messageID, pipelineExecutionID, response string) (err error) {
 	if TrustedPubKey == nil {
-		return ErrKeyIsNil
+		return ErrTrustedKeyIsNil
 	}
 
 	msgResp := AgentMsgRespCtx{

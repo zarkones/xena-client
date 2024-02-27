@@ -98,7 +98,7 @@ func DownloadFile(fileID string) (fileContent []byte, err error) {
 
 func UploadFile(fileID string, fileContent *[]byte) (err error) {
 	if TrustedPubKey == nil {
-		return ErrKeyIsNil
+		return ErrTrustedKeyIsNil
 	}
 
 	encryptedFileContent, err := cry.SecureWrap(TrustedPubKey, string(*fileContent))

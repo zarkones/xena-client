@@ -14,7 +14,7 @@ import (
 // It allows an agent to make itself known to the C2 server.
 func Identify(hostname, os, arch, pubKeyPEM string, decryptionKey *rsa.PrivateKey) (id string, err error) {
 	if TrustedPubKey == nil {
-		return "", ErrKeyIsNil
+		return "", ErrTrustedKeyIsNil
 	}
 	payload := Agent{
 		Hostname:  hostname,

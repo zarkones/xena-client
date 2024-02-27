@@ -18,7 +18,7 @@ type AgentModuleReqCtx struct {
 
 func AgentDownloadModule(agentID, moduleName string, decryptionKey *rsa.PrivateKey) (module string, err error) {
 	if TrustedPubKey == nil {
-		return "", ErrKeyIsNil
+		return "", ErrTrustedKeyIsNil
 	}
 
 	payload, err := json.Marshal(AgentModuleReqCtx{AgentID: agentID, ModuleName: moduleName})

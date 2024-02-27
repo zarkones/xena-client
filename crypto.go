@@ -7,6 +7,7 @@ import (
 )
 
 var ErrKeyIsNil = errors.New("key is nil")
+var ErrTrustedKeyIsNil = errors.New("trusted public key is not set")
 
 func GetC2PublicKey() (pubKeyPEM []byte, err error) {
 	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/public-key", nil)
