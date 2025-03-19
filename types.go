@@ -46,11 +46,12 @@ type Message struct {
 }
 
 type Pipeline struct {
-	ID       string `json:"id"`
-	Name     string `json:"name"`
-	Desc     string `json:"description"`
-	Category string `json:"category"`
-	Settings string `json:"settings"` // JSON stringified "PipelineSettings" variable.
+	ID           string `json:"id"`
+	Name         string `json:"name"`
+	FriendlyName string `json:"friendlyName"`
+	Desc         string `json:"description"`
+	Category     string `json:"category"`
+	Settings     string `json:"settings"` // JSON stringified "PipelineSettings" variable.
 }
 
 type PipelineRun struct {
