@@ -48,7 +48,6 @@ type Message struct {
 type Pipeline struct {
 	ID           string `json:"id"`
 	Name         string `json:"name"`
-	FriendlyName string `json:"friendlyName"`
 	Desc         string `json:"description"`
 	Category     string `json:"category"`
 	Settings     string `json:"settings"` // JSON stringified "PipelineSettings" variable.
@@ -70,6 +69,7 @@ type PipelineSettings struct {
 type PipelineStep struct {
 	ID       string        `json:"id"`
 	Name     string        `json:"name"`
+	FriendlyName string `json:"friendlyName"`
 	Position fyne.Position `json:"position"`
 	Tool     Tool          `json:"tool"`
 	LinkedTo []string      `json:"linkedTo"` // ID of a steps it is linked towards.
