@@ -46,11 +46,11 @@ type Message struct {
 }
 
 type Pipeline struct {
-	ID           string `json:"id"`
-	Name         string `json:"name"`
-	Desc         string `json:"description"`
-	Category     string `json:"category"`
-	Settings     string `json:"settings"` // JSON stringified "PipelineSettings" variable.
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	Desc     string `json:"description"`
+	Category string `json:"category"`
+	Settings string `json:"settings"` // JSON stringified "PipelineSettings" variable.
 }
 
 type PipelineRun struct {
@@ -67,12 +67,12 @@ type PipelineSettings struct {
 }
 
 type PipelineStep struct {
-	ID       string        `json:"id"`
-	Name     string        `json:"name"`
-	FriendlyName string `json:"friendlyName"`
-	Position fyne.Position `json:"position"`
-	Tool     Tool          `json:"tool"`
-	LinkedTo []string      `json:"linkedTo"` // ID of a steps it is linked towards.
+	ID           string        `json:"id"`
+	Name         string        `json:"name"`
+	FriendlyName string        `json:"friendlyName"`
+	Position     fyne.Position `json:"position"`
+	Tool         Tool          `json:"tool"`
+	LinkedTo     []string      `json:"linkedTo"` // ID of a steps it is linked towards.
 }
 
 type Tool struct {
@@ -112,10 +112,11 @@ const TOOL_IO_TYPE_STRING = "STRING"
 const TOOL_IO_TYPE_FILE = "FILE"
 
 type Target struct {
-	ID    string `json:"id"`
-	Name  string `json:"name"`
-	Value string `json:"value"`
-	Type  string `json:"type"`
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	Value    string `json:"value"`
+	Type     string `json:"type"`
+	Approved bool   `json:"approved"`
 }
 
 type File struct {
