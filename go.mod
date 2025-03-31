@@ -1,6 +1,8 @@
 module github.com/zarkones/xena-client
 
-go 1.21
+go 1.21.6
+
+toolchain go1.24.1
 
 require (
 	fyne.io/fyne/v2 v2.4.2

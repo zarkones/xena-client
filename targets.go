@@ -52,8 +52,28 @@ func UpsertTargets(target Target) (err error) {
 	return nil
 }
 
-func RemoveTarget(targetID string) (err error) {
-	req, err := http.NewRequest(http.MethodDelete, *BaseURL+"/v1/targets/"+targetID, nil)
+func RemoveTarget(targetValue string) (err error) {
+	req, err := http.NewRequest(http.MethodDelete, *BaseURL+"/v1/targets/"+targetValue, nil)
+	if err != nil {
+		return err
+	}
+
+	setAuth(req)
+
+	resp, err := c.Do(req)
+	if err != nil {
+		return err
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return errors.Join(ErrUnexpectedStatusCode, errors.New(resp.Status))
+	}
+
+	return nil
+}
+
+func ApproveTarget(targetValue string) (err error) {
+	req, err := http.NewRequest(http.MethodDelete, *BaseURL+"/v1/targets/"+targetValue+"/approve", nil)
 	if err != nil {
 		return err
 	}

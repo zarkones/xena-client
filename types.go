@@ -112,7 +112,6 @@ const TOOL_IO_TYPE_STRING = "STRING"
 const TOOL_IO_TYPE_FILE = "FILE"
 
 type Target struct {
-	ID       string `json:"id"`
 	Name     string `json:"name"`
 	Value    string `json:"value"`
 	Type     string `json:"type"`
