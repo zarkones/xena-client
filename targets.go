@@ -73,7 +73,7 @@ func RemoveTarget(targetValue string) (err error) {
 }
 
 func ApproveTarget(targetValue string) (err error) {
-	req, err := http.NewRequest(http.MethodDelete, *BaseURL+"/v1/targets/"+targetValue+"/approve", nil)
+	req, err := http.NewRequest(http.MethodPost, *BaseURL+"/v1/targets/"+targetValue+"/approve", nil)
 	if err != nil {
 		return err
 	}
