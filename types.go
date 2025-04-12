@@ -126,3 +126,18 @@ type File struct {
 	Uploaded          bool   `json:"uploaded"`
 	UploadedAt        string `json:"uploadedAt"`
 }
+
+type Task struct {
+	ID          string `json:"id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Status      string `json:"status"`
+}
+
+const (
+	TASK_STATUS_TODO        = "TODO"
+	TASK_STATUS_IN_PROGRESS = "IN_PROGRESS"
+	TASK_STATUS_REVIEW      = "REVIEW"
+	TASK_STATUS_DONE        = "DONE"
+	TASK_STATUS_DELETED     = "DELETED"
+)
