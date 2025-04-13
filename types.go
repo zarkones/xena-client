@@ -1,6 +1,8 @@
 package c2api
 
 import (
+	"time"
+
 	"fyne.io/fyne/v2"
 )
 
@@ -141,3 +143,10 @@ const (
 	TASK_STATUS_DONE        = "DONE"
 	TASK_STATUS_DELETED     = "DELETED"
 )
+
+type ChatMessage struct {
+	ID        string    `json:"id"`
+	Author    string    `json:"author"`
+	Content   string    `json:"content"`
+	CreatedAt time.Time `json:"createdAt"`
+}
