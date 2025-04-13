@@ -6,11 +6,12 @@ import (
 	"errors"
 	"io"
 	"net/http"
+	"strconv"
 )
 
 // GetChat asks the C2 for the list of chats.
-func GetChat() (chat []ChatMessage, err error) {
-	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/chat", nil)
+func GetChat(page int) (chat []ChatMessage, err error) {
+	req, err := http.NewRequest(http.MethodGet, *BaseURL+"/v1/chat?page="+strconv.Itoa(page), nil)
 	if err != nil {
 		return nil, err
 	}
