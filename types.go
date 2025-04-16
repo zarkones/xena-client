@@ -150,3 +150,11 @@ type ChatMessage struct {
 	Content   string    `json:"content"`
 	CreatedAt time.Time `json:"createdAt"`
 }
+
+type TaskComment struct {
+	ID        string    `json:"id"`
+	AuthorID  string    `json:"authorId"`
+	TaskID    string    `json:"taskId"`
+	Content   string    `json:"content"`
+	CreatedAt time.Time `json:"createdAt"`
+}
