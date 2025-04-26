@@ -20,6 +20,12 @@ func GetComments(taskID string) (tasks []TaskComment, err error) {
 		return nil, err
 	}
 
+	defer resp.Body.Close()
+
+	if resp.StatusCode == http.StatusNoContent {
+		return []TaskComment{}, nil
+	}
+
 	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err

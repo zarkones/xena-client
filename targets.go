@@ -25,6 +25,12 @@ func GetTargets() (targets []Target, err error) {
 		return nil, err
 	}
 
+	defer resp.Body.Close()
+
+	if resp.StatusCode == http.StatusNoContent {
+		return []Target{}, nil
+	}
+
 	if err = json.NewDecoder(resp.Body).Decode(&targets); err != nil {
 		return nil, err
 	}
@@ -64,6 +70,8 @@ func RemoveTarget(targetValue string) (err error) {
 	if err != nil {
 		return err
 	}
+
+	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		return errors.Join(ErrUnexpectedStatusCode, errors.New(resp.Status))
